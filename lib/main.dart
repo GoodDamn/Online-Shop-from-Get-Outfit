@@ -258,7 +258,8 @@ class ProductDetail extends StatelessWidget{
         child: Column(
           children: <Widget>[
             Text(details[detailIndex]['name']),
-            Text(details[detailIndex]['currencyId'])
+            Text(details[detailIndex]['currencyId']),
+            Text(details[detailIndex]['price'].toString())
           ],
         ),
       ),
