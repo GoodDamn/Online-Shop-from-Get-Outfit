@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,13 @@ int detailIndex;
 String limit = "12", name;
 const String offersUrl = "http://server.getoutfit.ru/offers",
   categoriesUrl = "http://server.getoutfit.ru/categories";
+
+hexColor(String hex)
+{
+  String newColor = '0xff' + hex;
+  newColor = newColor.replaceAll('#', '');
+  return int.parse(newColor);
+}
 
 Future<String> getProductDetails(String url) async {
   var response = await http.get(
@@ -66,6 +74,7 @@ Future<String> getJsonDataForProducts(String url) async {
 /////////////////////////MAIN PART///////////////////////
 void main() => runApp(new MaterialApp(
   title: 'Online Shop from Get Outfit',
+  theme: new ThemeData(scaffoldBackgroundColor: Color(hexColor('#2D3447'))),
   home:  new HomePage(),
   debugShowCheckedModeBanner: false,
 ));
@@ -92,23 +101,25 @@ class HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(hexColor('#2D3447')),
       appBar: AppBar(
+        backgroundColor: Color(hexColor('#424D68')),
         title: Text("Online shop with Get Outfit"),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(hexColor('#424D68')),
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
+        fixedColor: Colors.white,
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: 'Search products',
-              backgroundColor: Colors.blue
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_basket),
               label: 'Categories',
-              backgroundColor: Colors.blue
           ),
         ],
 
@@ -129,7 +140,7 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
         TextField(
           textAlign: TextAlign.center,
@@ -137,6 +148,7 @@ class Search extends StatelessWidget {
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: 'Search categories here',
+            hintStyle: TextStyle(color: Colors.white)
           ),
         ),
         TextField(
@@ -144,7 +156,8 @@ class Search extends StatelessWidget {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: "Set up limit"
+              hintText: "Set up limit",
+              hintStyle: TextStyle(color: Colors.white)
           ),
           onChanged: (content) {limit = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
         ),
@@ -208,8 +221,8 @@ class Categories extends StatelessWidget
           textAlign: TextAlign.center,
           onChanged: (content) {getJsonDataForCategories(categoriesUrl + "?name=" + content);},
           decoration: InputDecoration(
-            border: InputBorder.none,
             hintText: 'Search categories here',
+            hintStyle: TextStyle(color: Colors.white)
           ),
         ),
         Expanded(
@@ -252,6 +265,7 @@ class ProductDetail extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(hexColor('#424D68')),
         title: Text("Product details"),
       ),
       body: Center(
