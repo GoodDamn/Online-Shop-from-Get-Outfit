@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show jsonDecode, utf8;
 
+String idCategoryProduct;
+
 bool visibleProgress = false;
 
 List dataProducts, dataCategory;
@@ -68,7 +70,7 @@ class HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     getJsonDataForProducts(offersUrl + "?limit=12");
-    getJsonDataForCategories(categoriesUrl + "&limit=12");
+    getJsonDataForCategories(categoriesUrl + "?limit=12");
   }
 
   @override
@@ -108,18 +110,6 @@ class HomePageState extends State<HomePage>
 
 // Search screen
 class Search extends StatelessWidget {
-
-  void showSnackBar(int index, BuildContext context)
-  {
-    final scaffold = Scaffold.of(context);
-    scaffold.showSnackBar(SnackBar(
-      content: Text("ID Родителя: " + dataProducts[index]['parentId'].toString()),
-      action: SnackBarAction(
-          label: "HIDE",
-          onPressed: scaffold.hideCurrentSnackBar
-      ),
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,16 +151,20 @@ class Search extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () => showSnackBar(index, context),
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ProductDetail()));
+                                idCategoryProduct = dataProducts[index]['categoryId'].toString();
+                              },
                               child: Card(
                                 child: Container(
                                   child: Column(
                                     children: <Widget>[
                                       Text(dataProducts[index]['name']),
-                                      Text("ID Категории: " + dataProducts[index]['id'].toString())
+                                      Text("ID Категории: " + dataProducts[index]['categoryId'].toString())
                                     ],
                                   ),
-                                  padding: const EdgeInsets.all(35.0),
+                                  padding: const EdgeInsets.all(25.0),
                                 ),
                               ),
                             )
@@ -216,10 +210,10 @@ class Categories extends StatelessWidget
                                   child: Column(
                                     children: <Widget>[
                                       Text(dataCategory[index]['name']),
-                                      Text("ID Категории: " + dataCategory[index]['id'].toString())
+                                      Text("ID Категории: " + dataCategory[index]['categoryId'].toString())
                                     ],
                                   ),
-                                  padding: const EdgeInsets.all(35.0),
+                                  padding: const EdgeInsets.all(15.0),
                                 ),
                               ),
                             )
@@ -234,4 +228,20 @@ class Categories extends StatelessWidget
     );
   }
 
+}
+
+class ProductDetail extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Product details"),
+      ),
+      body: Center(
+        child: Column(
+
+        ),
+      ),
+    );
+  }
 }
