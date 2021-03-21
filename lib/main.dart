@@ -333,28 +333,31 @@ class ProductDetail extends StatelessWidget{
         backgroundColor: Color(hexColor('#424D68')),
         title: Text("Product details"),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 20),
-            Text(currentProduct, style: TextStyle(color: Colors.white,), textAlign: TextAlign.center),
-            SizedBox(height: 20),
-            Text("Цена: " + price, style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
-            SizedBox(height: 20),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.fill,
-                height: 240,
-                width: 240,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 20),
+              Text(currentProduct, style: TextStyle(color: Colors.white,), textAlign: TextAlign.center),
+              SizedBox(height: 20),
+              Text("Цена: " + price, style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+              SizedBox(height: 20),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image(
+                  image: NetworkImage(imageUrl),
+                  fit: BoxFit.fill,
+                  height: 240,
+                  width: 240,
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Text("Vendor: " + vendor,style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
-          ],
-        ),
-      ),
+              SizedBox(height: 20),
+              Text("Vendor: " + vendor,style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+              SizedBox(height: 20)
+            ],
+          ),
+        )
+      )
     );
   }
 }
