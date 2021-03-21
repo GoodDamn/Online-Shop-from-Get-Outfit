@@ -74,7 +74,8 @@ Future<String> getJsonDataForProducts(String url) async {
 /////////////////////////MAIN PART///////////////////////
 void main() => runApp(new MaterialApp(
   title: 'Online Shop from Get Outfit',
-  theme: new ThemeData(scaffoldBackgroundColor: Color(hexColor('#2D3447'))),
+  theme: new ThemeData(
+      scaffoldBackgroundColor: Color(hexColor('#2D3447'))),
   home:  new HomePage(),
   debugShowCheckedModeBanner: false,
 ));
@@ -146,7 +147,7 @@ class Search extends StatelessWidget {
           textAlign: TextAlign.center,
           onChanged: (content) {name = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
           decoration: InputDecoration(
-            border: InputBorder.none,
+            prefixIcon: Icon(Icons.search),
             hintText: 'Search categories here',
             hintStyle: TextStyle(color: Colors.white)
           ),
@@ -155,9 +156,9 @@ class Search extends StatelessWidget {
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-              border: InputBorder.none,
+
               hintText: "Set up limit",
-              hintStyle: TextStyle(color: Colors.white)
+              hintStyle: TextStyle(color: Colors.white),
           ),
           onChanged: (content) {limit = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
         ),
@@ -217,12 +218,22 @@ class Categories extends StatelessWidget
   Widget build(BuildContext context) {
     return  Column(
       children: [
-        TextField(
-          textAlign: TextAlign.center,
-          onChanged: (content) {getJsonDataForCategories(categoriesUrl + "?name=" + content);},
-          decoration: InputDecoration(
-            hintText: 'Search categories here',
-            hintStyle: TextStyle(color: Colors.white)
+        Theme(
+          data:new ThemeData(
+            primaryColor: Colors.white,
+            primaryColorDark: Colors.white
+          ),
+          child: TextField(
+            textAlign: TextAlign.center,
+            onChanged: (content) {getJsonDataForCategories(categoriesUrl + "?name=" + content);},
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)
+              ),
+                hintText: 'Search categories here',
+                prefixIcon: Icon(Icons.search,color: Colors.white),
+                hintStyle: TextStyle(color: Colors.white)
+            ),
           ),
         ),
         Expanded(
