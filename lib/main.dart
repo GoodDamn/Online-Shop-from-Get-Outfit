@@ -195,9 +195,8 @@ class Search extends StatelessWidget {
                                 price = dataProducts[index]['price'].toString() + " " + dataProducts[index]['currencyId'];
                                 imageUrl = dataProducts[index]['pictures'][0];
                               },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Card(
+                              child: Card(
+                                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                                   child: Container(
                                     child: Column(
                                       children: <Widget>[
@@ -209,7 +208,6 @@ class Search extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            )
                           ],
                         )
                     ),
@@ -264,10 +262,8 @@ class Categories extends StatelessWidget
                                 selectedCategory = dataCategory[index]['name'];
                                 getJsonDataForProducts(offersUrl + "?name=" + selectedCategory + "&limit=15");
                               },
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                child: Card(
-
+                              child: Card(
+                                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                                   child: Container(
                                     child: Column(
                                       children: <Widget>[
@@ -279,7 +275,6 @@ class Categories extends StatelessWidget
                                   ),
                                 ),
                               ),
-                            )
                           ],
                         )
                     ),
@@ -318,9 +313,8 @@ class CategoryDetail extends StatelessWidget
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => ProductDetail()));
                             },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Card(
+                            child: Card(
+                                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                                 child: Container(
                                   child: Column(
                                     children: <Widget>[
@@ -332,7 +326,6 @@ class CategoryDetail extends StatelessWidget
                                 ),
                               )
                             )
-                          )
                         ],
                       )
                   ),
