@@ -6,6 +6,8 @@ import 'dart:convert' show jsonDecode, utf8;
 
 bool visibleProgress = false;
 
+String selectedCategory;
+
 List dataProducts, dataCategory, details;
 int detailIndex;
 String limit = "12", name;
@@ -270,6 +272,9 @@ class Categories extends StatelessWidget
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             GestureDetector(
+                              onTap: (){
+
+                              },
                               child: Card(
                                 child: Container(
                                   child: Column(
@@ -290,6 +295,20 @@ class Categories extends StatelessWidget
             )
         )
       ],
+    );
+  }
+
+}
+
+class CategoryDeatil extends StatelessWidget
+{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color(hexColor('#424D68')),
+          title: Text("Products from category " + selectedCategory)
+      ),
     );
   }
 
