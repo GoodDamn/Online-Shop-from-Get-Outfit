@@ -4,10 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show jsonDecode, utf8;
 
-bool visibleProgress = false;
 
 String selectedCategory;
-String currentProduct, price, imageUrl;
+String currentProduct, price, imageUrl, vendor; // For product details.
 
 List dataProducts, dataCategory, details;
 String limit = "12", name;
@@ -27,13 +26,11 @@ Future<String> getJsonDataForCategories(String url) async {
   );
   print(response);
 
-  visibleProgress = true;
   var convertDataToJson = utf8.decode(response.bodyBytes);
   convertDataToJson = "{\"results\": " + convertDataToJson + "}";
   print(convertDataToJson);
   var decodeJson = jsonDecode(convertDataToJson);
   dataCategory = decodeJson['results'];
-  visibleProgress = false;
 
   return "Success";
 }
@@ -44,13 +41,11 @@ Future<String> getJsonDataForProducts(String url) async {
   );
   print(response);
 
-  visibleProgress = true;
   var convertDataToJson = utf8.decode(response.bodyBytes);
   convertDataToJson = "{\"results\": " + convertDataToJson + "}";
   print(convertDataToJson);
   var decodeJson = jsonDecode(convertDataToJson);
   dataProducts = decodeJson['results'];
-  visibleProgress = false;
 
   return "Success";
 }
@@ -169,15 +164,6 @@ class Search extends StatelessWidget {
             onChanged: (content) {limit = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
           )
         ),
-        Visibility(
-            maintainAnimation: true,
-            maintainSize: true,
-            maintainState: true,
-            visible: visibleProgress,
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color> (Colors.indigoAccent),
-            )
-        ),
         Expanded(
             child: ListView.builder(
                 itemCount: dataProducts == null ? 0 : dataProducts.length,
@@ -194,6 +180,7 @@ class Search extends StatelessWidget {
                                 currentProduct = dataProducts[index]['name'];
                                 price = dataProducts[index]['price'].toString() + " " + dataProducts[index]['currencyId'];
                                 imageUrl = dataProducts[index]['pictures'][0];
+                                vendor = dataProducts[index]['vendor'];
                               },
                               child: Card(
                                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
@@ -310,6 +297,7 @@ class CategoryDetail extends StatelessWidget
                               currentProduct = dataProducts[index]['name'];
                               price = dataProducts[index]['price'].toString() + " " + dataProducts[index]['currencyId'];
                               imageUrl = dataProducts[index]['pictures'][0];
+                              vendor = dataProducts[index]['vendor'];
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => ProductDetail()));
                             },
@@ -361,7 +349,9 @@ class ProductDetail extends StatelessWidget{
                 height: 240,
                 width: 240,
               ),
-            )
+            ),
+            SizedBox(height: 20),
+            Text("Vendor: " + vendor,style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
           ],
         ),
       ),
