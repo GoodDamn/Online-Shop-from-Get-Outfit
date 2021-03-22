@@ -1,6 +1,6 @@
-# first_app
+# Online Shop.
 
-A new Flutter application.
+Flutter application, which load data from http://server.getoutfit.ru/. This server get data from online shop Lamoda.
 
 ## Getting Started
 
