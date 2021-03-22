@@ -10,7 +10,6 @@ String selectedCategory;
 String currentProduct, price, imageUrl;
 
 List dataProducts, dataCategory, details;
-int detailIndex;
 String limit = "12", name;
 const String offersUrl = "http://server.getoutfit.ru/offers",
   categoriesUrl = "http://server.getoutfit.ru/categories";
@@ -21,24 +20,6 @@ hexColor(String hex)
   newColor = newColor.replaceAll('#', '');
   return int.parse(newColor);
 }
-
-Future<String> getProductDetails(String url) async {
-  var response = await http.get(
-    Uri.encodeFull(url),
-  );
-  print(response);
-
-  visibleProgress = true;
-  var convertDataToJson = utf8.decode(response.bodyBytes);
-  convertDataToJson = "{\"results\": " + convertDataToJson + "}";
-  print(convertDataToJson);
-  var decodeJson = jsonDecode(convertDataToJson);
-  details = decodeJson['results'];
-  visibleProgress = false;
-
-  return "Success";
-}
-
 
 Future<String> getJsonDataForCategories(String url) async {
   var response = await http.get(
@@ -213,17 +194,19 @@ class Search extends StatelessWidget {
                                 currentProduct = dataProducts[index]['name'];
                                 price = dataProducts[index]['price'].toString() + " " + dataProducts[index]['currencyId'];
                                 imageUrl = dataProducts[index]['pictures'][0];
-                                detailIndex = index;
                               },
-                              child: Card(
-                                child: Container(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(dataProducts[index]['name']),
-                                      Text("ID Категории: " + dataProducts[index]['categoryId'].toString())
-                                    ],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Card(
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(dataProducts[index]['name'],textAlign: TextAlign.center),
+                                        Text("ID Категории: " + dataProducts[index]['categoryId'].toString(),textAlign: TextAlign.center)
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.all(25.0),
                                   ),
-                                  padding: const EdgeInsets.all(25.0),
                                 ),
                               ),
                             )
@@ -281,15 +264,19 @@ class Categories extends StatelessWidget
                                 selectedCategory = dataCategory[index]['name'];
                                 getJsonDataForProducts(offersUrl + "?name=" + selectedCategory + "&limit=15");
                               },
-                              child: Card(
-                                child: Container(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(dataCategory[index]['name']),
-                                      Text("ID Категории: " + dataCategory[index]['id'].toString())
-                                    ],
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                child: Card(
+
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(dataCategory[index]['name'], textAlign: TextAlign.center),
+                                        Text("ID Категории: " + dataCategory[index]['id'].toString(), textAlign: TextAlign.center)
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.all(15.0),
                                   ),
-                                  padding: const EdgeInsets.all(15.0),
                                 ),
                               ),
                             )
@@ -325,22 +312,26 @@ class CategoryDetail extends StatelessWidget
                         children: <Widget>[
                           GestureDetector(
                             onTap: (){
-                              getProductDetails(offersUrl + "?categoryId=" + dataProducts[index]['categoryId'].toString() + "&name=" + dataProducts[index][name]);
+                              currentProduct = dataProducts[index]['name'];
+                              price = dataProducts[index]['price'].toString() + " " + dataProducts[index]['currencyId'];
+                              imageUrl = dataProducts[index]['pictures'][0];
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => ProductDetail()));
-                              detailIndex = index;
                             },
-                            child: Card(
-                              child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(dataProducts[index]['name']),
-                                    Text("ID Категории: " + dataProducts[index]['categoryId'].toString())
-                                  ],
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Card(
+                                child: Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(dataProducts[index]['name']),
+                                      Text("ID Категории: " + dataProducts[index]['categoryId'].toString())
+                                    ],
+                                  ),
+                                  padding: const EdgeInsets.all(15.0),
                                 ),
-                                padding: const EdgeInsets.all(15.0),
-                              ),
-                            ),
+                              )
+                            )
                           )
                         ],
                       )
@@ -365,9 +356,9 @@ class ProductDetail extends StatelessWidget{
         child: Column(
           children: <Widget>[
             SizedBox(height: 20),
-            Text(currentProduct, style: TextStyle(color: Colors.white)),
+            Text(currentProduct, style: TextStyle(color: Colors.white,), textAlign: TextAlign.center),
             SizedBox(height: 20),
-            Text("Цена: " + price, style: TextStyle(color: Colors.white)),
+            Text("Цена: " + price, style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
             SizedBox(height: 20),
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
