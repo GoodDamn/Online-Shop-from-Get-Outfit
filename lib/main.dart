@@ -7,7 +7,7 @@ import 'dart:convert' show jsonDecode, utf8;
 bool visibleProgress = false;
 
 String selectedCategory;
-String currentProduct, price;
+String currentProduct, price, imageUrl;
 
 List dataProducts, dataCategory, details;
 int detailIndex;
@@ -212,6 +212,7 @@ class Search extends StatelessWidget {
                                     builder: (context) => ProductDetail()));
                                 currentProduct = dataProducts[index]['name'];
                                 price = dataProducts[index]['price'].toString() + " " + dataProducts[index]['currencyId'];
+                                imageUrl = dataProducts[index]['pictures'][0];
                                 detailIndex = index;
                               },
                               child: Card(
@@ -363,8 +364,20 @@ class ProductDetail extends StatelessWidget{
       body: Center(
         child: Column(
           children: <Widget>[
+            SizedBox(height: 20),
             Text(currentProduct, style: TextStyle(color: Colors.white)),
-            Text("Цена: " + price, style: TextStyle(color: Colors.white))
+            SizedBox(height: 20),
+            Text("Цена: " + price, style: TextStyle(color: Colors.white)),
+            SizedBox(height: 20),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image(
+                image: NetworkImage(imageUrl),
+                fit: BoxFit.fill,
+                height: 240,
+                width: 240,
+              ),
+            )
           ],
         ),
       ),
