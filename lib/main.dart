@@ -143,24 +143,47 @@ class Search extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          textAlign: TextAlign.center,
-          onChanged: (content) {name = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search),
-            hintText: 'Search categories here',
-            hintStyle: TextStyle(color: Colors.white)
-          ),
+        Theme(
+            data: ThemeData(
+              primaryColor: Colors.white,
+              primaryColorDark: Colors.white
+            ),
+            child: TextField(
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.center,
+              onChanged: (content) {name = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.white
+                    )
+                  ),
+                  prefixIcon: Icon(Icons.search, color: Colors.white),
+                  hintText: 'Search categories here',
+                  hintStyle: TextStyle(color: Colors.white)
+              ),
+            )
         ),
-        TextField(
-          textAlign: TextAlign.center,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-
+        Theme(
+          data: ThemeData(
+              primaryColor: Colors.white,
+              primaryColorDark: Colors.white
+          ),
+          child: TextField(
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.white
+                  )
+              ),
               hintText: "Set up limit",
               hintStyle: TextStyle(color: Colors.white),
-          ),
-          onChanged: (content) {limit = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
+            ),
+            onChanged: (content) {limit = content; getJsonDataForProducts(offersUrl + "?name=" + name + "&limit=" + limit);},
+          )
         ),
         Visibility(
             maintainAnimation: true,
@@ -224,6 +247,7 @@ class Categories extends StatelessWidget
             primaryColorDark: Colors.white
           ),
           child: TextField(
+            style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
             onChanged: (content) {getJsonDataForCategories(categoriesUrl + "?name=" + content);},
             decoration: InputDecoration(
@@ -251,7 +275,7 @@ class Categories extends StatelessWidget
                                   child: Column(
                                     children: <Widget>[
                                       Text(dataCategory[index]['name']),
-                                      Text("ID Категории: " + dataCategory[index]['categoryId'].toString())
+                                      Text("ID Категории: " + dataCategory[index]['id'].toString())
                                     ],
                                   ),
                                   padding: const EdgeInsets.all(15.0),
@@ -282,9 +306,8 @@ class ProductDetail extends StatelessWidget{
       body: Center(
         child: Column(
           children: <Widget>[
-            Text(details[detailIndex]['name']),
-            Text(details[detailIndex]['currencyId']),
-            Text(details[detailIndex]['price'].toString())
+            Text(details[detailIndex]['name'], style: TextStyle(color: Colors.white)),
+            Text("Цена: " + details[detailIndex]['price'].toString() + " " + details[detailIndex]['currencyId'], style: TextStyle(color: Colors.white))
           ],
         ),
       ),
