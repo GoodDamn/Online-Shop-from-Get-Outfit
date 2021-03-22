@@ -7,6 +7,7 @@ import 'dart:convert' show jsonDecode, utf8;
 bool visibleProgress = false;
 
 String selectedCategory;
+String currentProduct, price;
 
 List dataProducts, dataCategory, details;
 int detailIndex;
@@ -209,7 +210,8 @@ class Search extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(
                                     builder: (context) => ProductDetail()));
-                                getProductDetails(offersUrl + "?categoryId=" + dataProducts[index]['categoryId'].toString());
+                                currentProduct = dataProducts[index]['name'];
+                                price = dataProducts[index]['price'].toString() + " " + dataProducts[index]['currencyId'];
                                 detailIndex = index;
                               },
                               child: Card(
@@ -322,7 +324,7 @@ class CategoryDetail extends StatelessWidget
                         children: <Widget>[
                           GestureDetector(
                             onTap: (){
-                              getProductDetails(offersUrl + "?categoryId=" + dataProducts[index]['categoryId'].toString());
+                              getProductDetails(offersUrl + "?categoryId=" + dataProducts[index]['categoryId'].toString() + "&name=" + dataProducts[index][name]);
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => ProductDetail()));
                               detailIndex = index;
@@ -361,8 +363,8 @@ class ProductDetail extends StatelessWidget{
       body: Center(
         child: Column(
           children: <Widget>[
-            Text(details[detailIndex]['name'], style: TextStyle(color: Colors.white)),
-            Text("Цена: " + details[detailIndex]['price'].toString() + " " + details[detailIndex]['currencyId'], style: TextStyle(color: Colors.white))
+            Text(currentProduct, style: TextStyle(color: Colors.white)),
+            Text("Цена: " + price, style: TextStyle(color: Colors.white))
           ],
         ),
       ),
