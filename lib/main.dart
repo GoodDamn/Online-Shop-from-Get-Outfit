@@ -273,7 +273,9 @@ class Categories extends StatelessWidget
                           children: <Widget>[
                             GestureDetector(
                               onTap: (){
-
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => CategoryDetail()));
+                                selectedCategory = dataCategory[index]['name'];
                               },
                               child: Card(
                                 child: Container(
@@ -300,7 +302,7 @@ class Categories extends StatelessWidget
 
 }
 
-class CategoryDeatil extends StatelessWidget
+class CategoryDetail extends StatelessWidget
 {
   @override
   Widget build(BuildContext context) {
@@ -309,6 +311,7 @@ class CategoryDeatil extends StatelessWidget
           backgroundColor: Color(hexColor('#424D68')),
           title: Text("Products from category " + selectedCategory)
       ),
+      body: Text("asd")
     );
   }
 
