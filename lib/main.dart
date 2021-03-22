@@ -276,6 +276,7 @@ class Categories extends StatelessWidget
                                 Navigator.push(context, MaterialPageRoute(
                                     builder: (context) => CategoryDetail()));
                                 selectedCategory = dataCategory[index]['name'];
+                                getJsonDataForProducts(offersUrl + "?name=" + selectedCategory + "&limit=15");
                               },
                               child: Card(
                                 child: Container(
@@ -309,10 +310,42 @@ class CategoryDetail extends StatelessWidget
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(hexColor('#424D68')),
-          title: Text("Products from category " + selectedCategory)
+          title: Text("Products from category " + selectedCategory, style: TextStyle(fontSize: 15.0),)
       ),
-      body: Text("asd")
-    );
+      body: ListView.builder(
+              itemCount: dataCategory == null ? 0 : dataCategory.length,
+              itemBuilder: (BuildContext context, int index){
+                return Container(
+                  child: Center(
+                      child:Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: (){
+                              getProductDetails(offersUrl + "?categoryId=" + dataProducts[index]['categoryId'].toString());
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => ProductDetail()));
+                              detailIndex = index;
+                            },
+                            child: Card(
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(dataProducts[index]['name']),
+                                    Text("ID Категории: " + dataProducts[index]['categoryId'].toString())
+                                  ],
+                                ),
+                                padding: const EdgeInsets.all(15.0),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                  ),
+                );
+              }
+          )
+      );
   }
 
 }
